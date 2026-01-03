@@ -21,7 +21,7 @@ import {
   Radar,
   LabelList,
 } from 'recharts';
-import { FaArrowUp, FaArrowDown, FaChartLine, FaAward, FaExclamationTriangle } from 'react-icons/fa';
+import { FaArrowUp, FaArrowDown, FaChartLine, FaAward, FaExclamationTriangle, FaChevronDown } from 'react-icons/fa';
 import './Dashboard.css';
 
 const COLORS = ['#4f46e5', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4', '#ec4899'];
@@ -31,6 +31,7 @@ function Dashboard() {
   const [subjectAnalytics, setSubjectAnalytics] = useState([]);
   const [tests, setTests] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [legendExpanded, setLegendExpanded] = useState({});
 
   useEffect(() => {
     fetchData();
@@ -266,18 +267,26 @@ function Dashboard() {
             </BarChart>
           </ResponsiveContainer>
         </div>
-        {/* Subject name legend for mobile */}
+        {/* Subject name legend - Collapsible */}
         <div className="subject-legend">
-          <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>
-            <strong>Subject Names:</strong>
-          </p>
-          <div className="subject-legend-grid">
-            {subjectComparisonData.map((item, index) => (
-              <div key={index} className="subject-legend-item">
-                <span className="legend-short">{item.shortName}:</span>
-                <span className="legend-full">{item.name}</span>
-              </div>
-            ))}
+          <div 
+            className="subject-legend-header"
+            onClick={() => setLegendExpanded(prev => ({ ...prev, comparison: !prev.comparison }))}
+          >
+            <p className="subject-legend-title">
+              <strong>Subject Names:</strong>
+            </p>
+            <FaChevronDown className={`subject-legend-toggle ${legendExpanded.comparison ? 'expanded' : ''}`} />
+          </div>
+          <div className={`subject-legend-content ${legendExpanded.comparison ? 'expanded' : ''}`}>
+            <div className="subject-legend-grid">
+              {subjectComparisonData.map((item, index) => (
+                <div key={index} className="subject-legend-item">
+                  <span className="legend-short">{item.shortName}:</span>
+                  <span className="legend-full">{item.name}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -324,20 +333,28 @@ function Dashboard() {
             </PieChart>
           </ResponsiveContainer>
         </div>
-        {/* Subject name legend */}
-        <div className="subject-legend">
-          <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>
-            <strong>Subject Names:</strong>
-          </p>
-          <div className="subject-legend-grid">
-            {subjectContributionData.map((item, index) => (
-              <div key={index} className="subject-legend-item">
-                <span className="legend-short">{item.shortName}:</span>
-                <span className="legend-full">{item.name}</span>
+          {/* Subject name legend - Collapsible */}
+          <div className="subject-legend">
+            <div 
+              className="subject-legend-header"
+              onClick={() => setLegendExpanded(prev => ({ ...prev, contribution: !prev.contribution }))}
+            >
+              <p className="subject-legend-title">
+                <strong>Subject Names:</strong>
+              </p>
+              <FaChevronDown className={`subject-legend-toggle ${legendExpanded.contribution ? 'expanded' : ''}`} />
+            </div>
+            <div className={`subject-legend-content ${legendExpanded.contribution ? 'expanded' : ''}`}>
+              <div className="subject-legend-grid">
+                {subjectContributionData.map((item, index) => (
+                  <div key={index} className="subject-legend-item">
+                    <span className="legend-short">{item.shortName}:</span>
+                    <span className="legend-full">{item.name}</span>
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
           </div>
-        </div>
       </div>
 
       {/* Radar Chart */}

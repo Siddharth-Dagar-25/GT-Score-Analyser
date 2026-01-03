@@ -15,7 +15,7 @@ import {
   ResponsiveContainer,
   LabelList,
 } from 'recharts';
-import { FaArrowLeft, FaTrash, FaEdit, FaCalendar, FaCheckCircle, FaTimesCircle, FaMinusCircle } from 'react-icons/fa';
+import { FaArrowLeft, FaTrash, FaEdit, FaCalendar, FaCheckCircle, FaTimesCircle, FaMinusCircle, FaChevronDown } from 'react-icons/fa';
 import { format } from 'date-fns';
 import './TestDetail.css';
 
@@ -28,6 +28,7 @@ function TestDetail() {
   const [allTests, setAllTests] = useState([]);
   const [previousTest, setPreviousTest] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [legendExpanded, setLegendExpanded] = useState({});
 
   useEffect(() => {
     fetchTestData();
@@ -299,18 +300,26 @@ function TestDetail() {
               </BarChart>
             </ResponsiveContainer>
           </div>
-          {/* Subject name legend */}
+          {/* Subject name legend - Collapsible */}
           <div className="subject-legend">
-            <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>
-              <strong>Subject Names:</strong>
-            </p>
-            <div className="subject-legend-grid">
-              {subjectBarData.map((item, index) => (
-                <div key={index} className="subject-legend-item">
-                  <span className="legend-short">{item.shortName}:</span>
-                  <span className="legend-full">{item.name}</span>
-                </div>
-              ))}
+            <div 
+              className="subject-legend-header"
+              onClick={() => setLegendExpanded(prev => ({ ...prev, barChart: !prev.barChart }))}
+            >
+              <p className="subject-legend-title">
+                <strong>Subject Names:</strong>
+              </p>
+              <FaChevronDown className={`subject-legend-toggle ${legendExpanded.barChart ? 'expanded' : ''}`} />
+            </div>
+            <div className={`subject-legend-content ${legendExpanded.barChart ? 'expanded' : ''}`}>
+              <div className="subject-legend-grid">
+                {subjectBarData.map((item, index) => (
+                  <div key={index} className="subject-legend-item">
+                    <span className="legend-short">{item.shortName}:</span>
+                    <span className="legend-full">{item.name}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -357,18 +366,26 @@ function TestDetail() {
               </PieChart>
             </ResponsiveContainer>
           </div>
-          {/* Subject name legend */}
+          {/* Subject name legend - Collapsible */}
           <div className="subject-legend">
-            <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>
-              <strong>Subject Names:</strong>
-            </p>
-            <div className="subject-legend-grid">
-              {subjectPieData.map((item, index) => (
-                <div key={index} className="subject-legend-item">
-                  <span className="legend-short">{item.shortName}:</span>
-                  <span className="legend-full">{item.name}</span>
-                </div>
-              ))}
+            <div 
+              className="subject-legend-header"
+              onClick={() => setLegendExpanded(prev => ({ ...prev, pieChart: !prev.pieChart }))}
+            >
+              <p className="subject-legend-title">
+                <strong>Subject Names:</strong>
+              </p>
+              <FaChevronDown className={`subject-legend-toggle ${legendExpanded.pieChart ? 'expanded' : ''}`} />
+            </div>
+            <div className={`subject-legend-content ${legendExpanded.pieChart ? 'expanded' : ''}`}>
+              <div className="subject-legend-grid">
+                {subjectPieData.map((item, index) => (
+                  <div key={index} className="subject-legend-item">
+                    <span className="legend-short">{item.shortName}:</span>
+                    <span className="legend-full">{item.name}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -437,19 +454,27 @@ function TestDetail() {
                 </BarChart>
               </ResponsiveContainer>
             </div>
-            {/* Subject name legend */}
+            {/* Subject name legend - Collapsible */}
             {comparisonData.length > 0 && (
               <div className="subject-legend">
-                <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>
-                  <strong>Subject Names:</strong>
-                </p>
-                <div className="subject-legend-grid">
-                  {comparisonData.map((item, index) => (
-                    <div key={index} className="subject-legend-item">
-                      <span className="legend-short">{item.shortName}:</span>
-                      <span className="legend-full">{item.name}</span>
-                    </div>
-                  ))}
+                <div 
+                  className="subject-legend-header"
+                  onClick={() => setLegendExpanded(prev => ({ ...prev, comparison: !prev.comparison }))}
+                >
+                  <p className="subject-legend-title">
+                    <strong>Subject Names:</strong>
+                  </p>
+                  <FaChevronDown className={`subject-legend-toggle ${legendExpanded.comparison ? 'expanded' : ''}`} />
+                </div>
+                <div className={`subject-legend-content ${legendExpanded.comparison ? 'expanded' : ''}`}>
+                  <div className="subject-legend-grid">
+                    {comparisonData.map((item, index) => (
+                      <div key={index} className="subject-legend-item">
+                        <span className="legend-short">{item.shortName}:</span>
+                        <span className="legend-full">{item.name}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             )}

@@ -233,6 +233,21 @@
   overflow: visible;
 }
 
+/* Mobile: Make charts horizontally scrollable */
+@media (max-width: 768px) {
+  .chart-wrapper {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    margin: 0 -1rem;
+    padding: 0 1rem;
+  }
+
+  .chart-wrapper .recharts-wrapper {
+    min-width: 600px;
+  }
+}
+
 /* Custom tooltip styling */
 .custom-tooltip {
   background-color: var(--bg-secondary);
@@ -247,6 +262,48 @@
   margin-top: 1.5rem;
   padding-top: 1.5rem;
   border-top: 1px solid var(--border-color);
+}
+
+.subject-legend-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+  padding: 0.5rem 0;
+  margin-bottom: 0.5rem;
+}
+
+.subject-legend-header:hover {
+  opacity: 0.8;
+}
+
+.subject-legend-title {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.subject-legend-toggle {
+  color: var(--accent-color);
+  font-size: 1rem;
+  transition: transform 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+
+.subject-legend-toggle.expanded {
+  transform: rotate(180deg);
+}
+
+.subject-legend-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.subject-legend-content.expanded {
+  max-height: 1000px;
 }
 
 .subject-legend-grid {
