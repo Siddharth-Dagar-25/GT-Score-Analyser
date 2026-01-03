@@ -1,0 +1,200 @@
+.add-test {
+  width: 100%;
+}
+
+.test-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.calculated-marks {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: var(--bg-primary);
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+.mark-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.mark-label {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.mark-value {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--accent-color);
+}
+
+.quick-add-section {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: var(--bg-primary);
+  border-radius: 8px;
+  border: 1px dashed var(--border-color);
+}
+
+.quick-add-info {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  margin-top: 0.5rem;
+  line-height: 1.4;
+}
+
+.subject-input-section {
+  margin-bottom: 2rem;
+}
+
+.form-hint {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.table-input {
+  width: 100%;
+  padding: 0.25rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 0.875rem;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  text-align: center;
+  min-width: 50px;
+}
+
+.table-input:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
+}
+
+.table-input.input-error {
+  border-color: var(--error-color) !important;
+  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--error-color);
+}
+
+.table-input.input-error:focus {
+  border-color: var(--error-color);
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
+}
+
+.table tr.row-error {
+  background-color: rgba(239, 68, 68, 0.05);
+}
+
+.table tr.row-error td {
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.error-message {
+  font-size: 0.7rem;
+  color: var(--error-color);
+  margin-top: 0.25rem;
+  font-weight: 600;
+}
+
+.negative-marks {
+  color: var(--error-color);
+}
+
+.field-error {
+  font-size: 0.75rem;
+  color: var(--error-color);
+  margin-top: 0.25rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  background-color: rgba(239, 68, 68, 0.1);
+  border-radius: 4px;
+  border-left: 3px solid var(--error-color);
+}
+
+.form-input.input-error {
+  border-color: var(--error-color) !important;
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+.form-input.input-error:focus {
+  border-color: var(--error-color);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+}
+
+.table-hint {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+  padding: 0.5rem;
+  background-color: var(--bg-primary);
+  border-radius: 6px;
+}
+
+.subjects-list {
+  margin-top: 2rem;
+}
+
+.subjects-list h3 {
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+}
+
+.subjects-table-container {
+  overflow-x: auto;
+}
+
+.btn-sm {
+  padding: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.form-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  position: sticky;
+  bottom: 0;
+  background-color: var(--bg-primary);
+  padding: 1rem 0;
+  z-index: 10;
+}
+
+.form-actions .btn {
+  width: 100%;
+}
+
+/* Tablet and up */
+@media (min-width: 640px) {
+  .calculated-marks {
+    flex-direction: row;
+    gap: 2rem;
+  }
+
+  .mark-value {
+    font-size: 1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .form-actions {
+    flex-direction: row;
+    justify-content: flex-end;
+    position: static;
+    padding: 0;
+  }
+
+  .form-actions .btn {
+    width: auto;
+  }
+}
+

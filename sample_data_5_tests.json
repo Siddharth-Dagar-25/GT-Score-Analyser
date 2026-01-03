@@ -1,0 +1,359 @@
+{
+  "tests": [
+    {
+      "_id": "test1_jan5",
+      "testDate": "2024-01-05T00:00:00.000Z",
+      "totalMarks": 800,
+      "marksObtained": 430,
+      "totalQuestions": 200,
+      "correctQuestions": 120,
+      "incorrectQuestions": 50,
+      "skippedQuestions": 30,
+      "percentage": 53.75,
+      "subjects": [
+        {
+          "subjectName": "Physics",
+          "totalQuestions": 40,
+          "correctQuestions": 25,
+          "incorrectQuestions": 10,
+          "skippedQuestions": 5,
+          "marksObtained": 90,
+          "totalMarks": 160,
+          "percentage": 56.25,
+          "weightage": 20
+        },
+        {
+          "subjectName": "Chemistry",
+          "totalQuestions": 40,
+          "correctQuestions": 30,
+          "incorrectQuestions": 5,
+          "skippedQuestions": 5,
+          "marksObtained": 115,
+          "totalMarks": 160,
+          "percentage": 71.88,
+          "weightage": 20
+        },
+        {
+          "subjectName": "Biology",
+          "totalQuestions": 40,
+          "correctQuestions": 25,
+          "incorrectQuestions": 10,
+          "skippedQuestions": 5,
+          "marksObtained": 90,
+          "totalMarks": 160,
+          "percentage": 56.25,
+          "weightage": 20
+        },
+        {
+          "subjectName": "Mathematics",
+          "totalQuestions": 40,
+          "correctQuestions": 20,
+          "incorrectQuestions": 15,
+          "skippedQuestions": 5,
+          "marksObtained": 65,
+          "totalMarks": 160,
+          "percentage": 40.63,
+          "weightage": 20
+        },
+        {
+          "subjectName": "English",
+          "totalQuestions": 40,
+          "correctQuestions": 20,
+          "incorrectQuestions": 10,
+          "skippedQuestions": 10,
+          "marksObtained": 70,
+          "totalMarks": 160,
+          "percentage": 43.75,
+          "weightage": 20
+        }
+      ],
+      "createdAt": "2024-01-05T00:00:00.000Z",
+      "updatedAt": "2024-01-05T00:00:00.000Z"
+    },
+    {
+      "_id": "test2_jan12",
+      "testDate": "2024-01-12T00:00:00.000Z",
+      "totalMarks": 800,
+      "marksObtained": 495,
+      "totalQuestions": 200,
+      "correctQuestions": 135,
+      "incorrectQuestions": 45,
+      "skippedQuestions": 20,
+      "percentage": 61.88,
+      "subjects": [
+        {
+          "subjectName": "Physics",
+          "totalQuestions": 40,
+          "correctQuestions": 30,
+          "incorrectQuestions": 8,
+          "skippedQuestions": 2,
+          "marksObtained": 112,
+          "totalMarks": 160,
+          "percentage": 70,
+          "weightage": 20
+        },
+        {
+          "subjectName": "Chemistry",
+          "totalQuestions": 40,
+          "correctQuestions": 32,
+          "incorrectQuestions": 5,
+          "skippedQuestions": 3,
+          "marksObtained": 123,
+          "totalMarks": 160,
+          "percentage": 76.88,
+          "weightage": 20
+        },
+        {
+          "subjectName": "Biology",
+          "totalQuestions": 40,
+          "correctQuestions": 28,
+          "incorrectQuestions": 8,
+          "skippedQuestions": 4,
+          "marksObtained": 104,
+          "totalMarks": 160,
+          "percentage": 65,
+          "weightage": 20
+        },
+        {
+          "subjectName": "Mathematics",
+          "totalQuestions": 40,
+          "correctQuestions": 25,
+          "incorrectQuestions": 12,
+          "skippedQuestions": 3,
+          "marksObtained": 88,
+          "totalMarks": 160,
+          "percentage": 55,
+          "weightage": 20
+        },
+        {
+          "subjectName": "English",
+          "totalQuestions": 40,
+          "correctQuestions": 20,
+          "incorrectQuestions": 12,
+          "skippedQuestions": 8,
+          "marksObtained": 68,
+          "totalMarks": 160,
+          "percentage": 42.5,
+          "weightage": 20
+        }
+      ],
+      "createdAt": "2024-01-12T00:00:00.000Z",
+      "updatedAt": "2024-01-12T00:00:00.000Z"
+    },
+    {
+      "_id": "test3_jan19",
+      "testDate": "2024-01-19T00:00:00.000Z",
+      "totalMarks": 800,
+      "marksObtained": 565,
+      "totalQuestions": 200,
+      "correctQuestions": 150,
+      "incorrectQuestions": 35,
+      "skippedQuestions": 15,
+      "percentage": 70.63,
+      "subjects": [
+        {
+          "subjectName": "Physics",
+          "totalQuestions": 40,
+          "correctQuestions": 35,
+          "incorrectQuestions": 4,
+          "skippedQuestions": 1,
+          "marksObtained": 136,
+          "totalMarks": 160,
+          "percentage": 85,
+          "weightage": 20
+        },
+        {
+          "subjectName": "Chemistry",
+          "totalQuestions": 40,
+          "correctQuestions": 38,
+          "incorrectQuestions": 2,
+          "skippedQuestions": 0,
+          "marksObtained": 150,
+          "totalMarks": 160,
+          "percentage": 93.75,
+          "weightage": 20
+        },
+        {
+          "subjectName": "Biology",
+          "totalQuestions": 40,
+          "correctQuestions": 32,
+          "incorrectQuestions": 6,
+          "skippedQuestions": 2,
+          "marksObtained": 122,
+          "totalMarks": 160,
+          "percentage": 76.25,
+          "weightage": 20
+        },
+        {
+          "subjectName": "Mathematics",
+          "totalQuestions": 40,
+          "correctQuestions": 28,
+          "incorrectQuestions": 10,
+          "skippedQuestions": 2,
+          "marksObtained": 102,
+          "totalMarks": 160,
+          "percentage": 63.75,
+          "weightage": 20
+        },
+        {
+          "subjectName": "English",
+          "totalQuestions": 40,
+          "correctQuestions": 17,
+          "incorrectQuestions": 13,
+          "skippedQuestions": 10,
+          "marksObtained": 55,
+          "totalMarks": 160,
+          "percentage": 34.38,
+          "weightage": 20
+        }
+      ],
+      "createdAt": "2024-01-19T00:00:00.000Z",
+      "updatedAt": "2024-01-19T00:00:00.000Z"
+    },
+    {
+      "_id": "test4_jan26",
+      "testDate": "2024-01-26T00:00:00.000Z",
+      "totalMarks": 800,
+      "marksObtained": 540,
+      "totalQuestions": 200,
+      "correctQuestions": 145,
+      "incorrectQuestions": 40,
+      "skippedQuestions": 15,
+      "percentage": 67.5,
+      "subjects": [
+        {
+          "subjectName": "Physics",
+          "totalQuestions": 40,
+          "correctQuestions": 33,
+          "incorrectQuestions": 5,
+          "skippedQuestions": 2,
+          "marksObtained": 127,
+          "totalMarks": 160,
+          "percentage": 79.38,
+          "weightage": 20
+        },
+        {
+          "subjectName": "Chemistry",
+          "totalQuestions": 40,
+          "correctQuestions": 36,
+          "incorrectQuestions": 3,
+          "skippedQuestions": 1,
+          "marksObtained": 141,
+          "totalMarks": 160,
+          "percentage": 88.13,
+          "weightage": 20
+        },
+        {
+          "subjectName": "Biology",
+          "totalQuestions": 40,
+          "correctQuestions": 30,
+          "incorrectQuestions": 7,
+          "skippedQuestions": 3,
+          "marksObtained": 113,
+          "totalMarks": 160,
+          "percentage": 70.63,
+          "weightage": 20
+        },
+        {
+          "subjectName": "Mathematics",
+          "totalQuestions": 40,
+          "correctQuestions": 26,
+          "incorrectQuestions": 12,
+          "skippedQuestions": 2,
+          "marksObtained": 92,
+          "totalMarks": 160,
+          "percentage": 57.5,
+          "weightage": 20
+        },
+        {
+          "subjectName": "English",
+          "totalQuestions": 40,
+          "correctQuestions": 20,
+          "incorrectQuestions": 13,
+          "skippedQuestions": 7,
+          "marksObtained": 67,
+          "totalMarks": 160,
+          "percentage": 41.88,
+          "weightage": 20
+        }
+      ],
+      "createdAt": "2024-01-26T00:00:00.000Z",
+      "updatedAt": "2024-01-26T00:00:00.000Z"
+    },
+    {
+      "_id": "test5_feb2",
+      "testDate": "2024-02-02T00:00:00.000Z",
+      "totalMarks": 800,
+      "marksObtained": 610,
+      "totalQuestions": 200,
+      "correctQuestions": 160,
+      "incorrectQuestions": 30,
+      "skippedQuestions": 10,
+      "percentage": 76.25,
+      "subjects": [
+        {
+          "subjectName": "Physics",
+          "totalQuestions": 40,
+          "correctQuestions": 38,
+          "incorrectQuestions": 2,
+          "skippedQuestions": 0,
+          "marksObtained": 150,
+          "totalMarks": 160,
+          "percentage": 93.75,
+          "weightage": 20
+        },
+        {
+          "subjectName": "Chemistry",
+          "totalQuestions": 40,
+          "correctQuestions": 40,
+          "incorrectQuestions": 0,
+          "skippedQuestions": 0,
+          "marksObtained": 160,
+          "totalMarks": 160,
+          "percentage": 100,
+          "weightage": 20
+        },
+        {
+          "subjectName": "Biology",
+          "totalQuestions": 40,
+          "correctQuestions": 35,
+          "incorrectQuestions": 4,
+          "skippedQuestions": 1,
+          "marksObtained": 136,
+          "totalMarks": 160,
+          "percentage": 85,
+          "weightage": 20
+        },
+        {
+          "subjectName": "Mathematics",
+          "totalQuestions": 40,
+          "correctQuestions": 30,
+          "incorrectQuestions": 8,
+          "skippedQuestions": 2,
+          "marksObtained": 112,
+          "totalMarks": 160,
+          "percentage": 70,
+          "weightage": 20
+        },
+        {
+          "subjectName": "English",
+          "totalQuestions": 40,
+          "correctQuestions": 17,
+          "incorrectQuestions": 16,
+          "skippedQuestions": 7,
+          "marksObtained": 52,
+          "totalMarks": 160,
+          "percentage": 32.5,
+          "weightage": 20
+        }
+      ],
+      "createdAt": "2024-02-02T00:00:00.000Z",
+      "updatedAt": "2024-02-02T00:00:00.000Z"
+    }
+  ],
+  "goals": {
+    "overallTargetScore": 800,
+    "subjectGoals": []
+  }
+}
+

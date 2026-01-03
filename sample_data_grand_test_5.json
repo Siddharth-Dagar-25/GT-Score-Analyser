@@ -1,0 +1,233 @@
+{
+  "tests": [
+    {
+      "_id": "grand_test_5",
+      "testDate": "2024-01-15T00:00:00.000Z",
+      "totalMarks": 800,
+      "marksObtained": 284,
+      "totalQuestions": 200,
+      "correctQuestions": 91,
+      "incorrectQuestions": 84,
+      "skippedQuestions": 25,
+      "percentage": 45.50,
+      "subjects": [
+        {
+          "subjectName": "Anatomy",
+          "totalQuestions": 7,
+          "correctQuestions": 2,
+          "incorrectQuestions": 2,
+          "skippedQuestions": 3,
+          "marksObtained": 6,
+          "totalMarks": 28,
+          "percentage": 21.43,
+          "weightage": 3.5
+        },
+        {
+          "subjectName": "Obstetrics & Gynaecology",
+          "totalQuestions": 19,
+          "correctQuestions": 7,
+          "incorrectQuestions": 9,
+          "skippedQuestions": 3,
+          "marksObtained": 19,
+          "totalMarks": 76,
+          "percentage": 25.0,
+          "weightage": 9.5
+        },
+        {
+          "subjectName": "Dermatology",
+          "totalQuestions": 5,
+          "correctQuestions": 1,
+          "incorrectQuestions": 4,
+          "skippedQuestions": 0,
+          "marksObtained": 0,
+          "totalMarks": 20,
+          "percentage": 0.0,
+          "weightage": 2.5
+        },
+        {
+          "subjectName": "Physiology",
+          "totalQuestions": 10,
+          "correctQuestions": 3,
+          "incorrectQuestions": 7,
+          "skippedQuestions": 0,
+          "marksObtained": 5,
+          "totalMarks": 40,
+          "percentage": 12.5,
+          "weightage": 5.0
+        },
+        {
+          "subjectName": "Forensic Medicine",
+          "totalQuestions": 9,
+          "correctQuestions": 7,
+          "incorrectQuestions": 2,
+          "skippedQuestions": 0,
+          "marksObtained": 26,
+          "totalMarks": 36,
+          "percentage": 72.22,
+          "weightage": 4.5
+        },
+        {
+          "subjectName": "Psychiatry",
+          "totalQuestions": 4,
+          "correctQuestions": 3,
+          "incorrectQuestions": 1,
+          "skippedQuestions": 0,
+          "marksObtained": 11,
+          "totalMarks": 16,
+          "percentage": 68.75,
+          "weightage": 2.0
+        },
+        {
+          "subjectName": "Radiology",
+          "totalQuestions": 6,
+          "correctQuestions": 4,
+          "incorrectQuestions": 1,
+          "skippedQuestions": 1,
+          "marksObtained": 15,
+          "totalMarks": 24,
+          "percentage": 62.5,
+          "weightage": 3.0
+        },
+        {
+          "subjectName": "Ophthalmology",
+          "totalQuestions": 8,
+          "correctQuestions": 4,
+          "incorrectQuestions": 3,
+          "skippedQuestions": 1,
+          "marksObtained": 13,
+          "totalMarks": 32,
+          "percentage": 40.63,
+          "weightage": 4.0
+        },
+        {
+          "subjectName": "Community Medicine",
+          "totalQuestions": 16,
+          "correctQuestions": 7,
+          "incorrectQuestions": 7,
+          "skippedQuestions": 2,
+          "marksObtained": 21,
+          "totalMarks": 64,
+          "percentage": 32.81,
+          "weightage": 8.0
+        },
+        {
+          "subjectName": "Microbiology",
+          "totalQuestions": 12,
+          "correctQuestions": 5,
+          "incorrectQuestions": 7,
+          "skippedQuestions": 0,
+          "marksObtained": 13,
+          "totalMarks": 48,
+          "percentage": 27.08,
+          "weightage": 6.0
+        },
+        {
+          "subjectName": "Surgery",
+          "totalQuestions": 19,
+          "correctQuestions": 9,
+          "incorrectQuestions": 7,
+          "skippedQuestions": 3,
+          "marksObtained": 29,
+          "totalMarks": 76,
+          "percentage": 38.16,
+          "weightage": 9.5
+        },
+        {
+          "subjectName": "Medicine",
+          "totalQuestions": 19,
+          "correctQuestions": 8,
+          "incorrectQuestions": 9,
+          "skippedQuestions": 2,
+          "marksObtained": 23,
+          "totalMarks": 76,
+          "percentage": 30.26,
+          "weightage": 9.5
+        },
+        {
+          "subjectName": "Pathology",
+          "totalQuestions": 17,
+          "correctQuestions": 7,
+          "incorrectQuestions": 7,
+          "skippedQuestions": 3,
+          "marksObtained": 21,
+          "totalMarks": 68,
+          "percentage": 30.88,
+          "weightage": 8.5
+        },
+        {
+          "subjectName": "Pharmacology",
+          "totalQuestions": 17,
+          "correctQuestions": 9,
+          "incorrectQuestions": 6,
+          "skippedQuestions": 2,
+          "marksObtained": 30,
+          "totalMarks": 68,
+          "percentage": 44.12,
+          "weightage": 8.5
+        },
+        {
+          "subjectName": "Orthopaedics",
+          "totalQuestions": 4,
+          "correctQuestions": 2,
+          "incorrectQuestions": 2,
+          "skippedQuestions": 0,
+          "marksObtained": 6,
+          "totalMarks": 16,
+          "percentage": 37.5,
+          "weightage": 2.0
+        },
+        {
+          "subjectName": "ENT",
+          "totalQuestions": 6,
+          "correctQuestions": 4,
+          "incorrectQuestions": 2,
+          "skippedQuestions": 0,
+          "marksObtained": 14,
+          "totalMarks": 24,
+          "percentage": 58.33,
+          "weightage": 3.0
+        },
+        {
+          "subjectName": "Biochemistry",
+          "totalQuestions": 9,
+          "correctQuestions": 5,
+          "incorrectQuestions": 1,
+          "skippedQuestions": 3,
+          "marksObtained": 19,
+          "totalMarks": 36,
+          "percentage": 52.78,
+          "weightage": 4.5
+        },
+        {
+          "subjectName": "Anaesthesia",
+          "totalQuestions": 5,
+          "correctQuestions": 2,
+          "incorrectQuestions": 1,
+          "skippedQuestions": 2,
+          "marksObtained": 7,
+          "totalMarks": 20,
+          "percentage": 35.0,
+          "weightage": 2.5
+        },
+        {
+          "subjectName": "Paediatrics",
+          "totalQuestions": 8,
+          "correctQuestions": 2,
+          "incorrectQuestions": 6,
+          "skippedQuestions": 0,
+          "marksObtained": 2,
+          "totalMarks": 32,
+          "percentage": 6.25,
+          "weightage": 4.0
+        }
+      ],
+      "createdAt": "2024-01-15T00:00:00.000Z",
+      "updatedAt": "2024-01-15T00:00:00.000Z"
+    }
+  ],
+  "goals": {
+    "overallTargetScore": 800,
+    "subjectGoals": []
+  }
+}
+
