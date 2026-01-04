@@ -56,8 +56,8 @@ router.post('/', async (req, res) => {
       const subjectTotalMarks = subject.totalQuestions * 4;
       const subjectPercentage = (subjectMarksObtained / subjectTotalMarks) * 100;
       
-      // Calculate weightage (subject marks / total marks * 100)
-      const weightage = (subjectTotalMarks / totalMarks) * 100;
+      // Calculate weightage (subject questions / total questions * 100)
+      const weightage = (subject.totalQuestions / totalQuestions) * 100;
 
       return {
         subjectName: subject.subjectName,
@@ -114,7 +114,8 @@ router.put('/:id', async (req, res) => {
       );
       const subjectTotalMarks = subject.totalQuestions * 4;
       const subjectPercentage = (subjectMarksObtained / subjectTotalMarks) * 100;
-      const weightage = (subjectTotalMarks / totalMarks) * 100;
+      // Calculate weightage (subject questions / total questions * 100)
+      const weightage = (subject.totalQuestions / totalQuestions) * 100;
 
       return {
         subjectName: subject.subjectName,
@@ -246,6 +247,10 @@ router.get('/analytics/subjects', async (req, res) => {
             marksObtained: [],
             totalMarks: [],
             weightage: [],
+            totalQuestions: [],
+            correctQuestions: [],
+            incorrectQuestions: [],
+            skippedQuestions: [],
           };
         }
         subjectMap[subject.subjectName].scores.push(subject.marksObtained);
@@ -253,6 +258,10 @@ router.get('/analytics/subjects', async (req, res) => {
         subjectMap[subject.subjectName].marksObtained.push(subject.marksObtained);
         subjectMap[subject.subjectName].totalMarks.push(subject.totalMarks);
         subjectMap[subject.subjectName].weightage.push(subject.weightage);
+        subjectMap[subject.subjectName].totalQuestions.push(subject.totalQuestions);
+        subjectMap[subject.subjectName].correctQuestions.push(subject.correctQuestions);
+        subjectMap[subject.subjectName].incorrectQuestions.push(subject.incorrectQuestions);
+        subjectMap[subject.subjectName].skippedQuestions.push(subject.skippedQuestions || 0);
       });
     });
 
@@ -269,6 +278,12 @@ router.get('/analytics/subjects', async (req, res) => {
       const avgWeightage = subject.weightage.reduce((a, b) => a + b, 0) / subject.weightage.length;
       const totalContribution = subject.marksObtained.reduce((a, b) => a + b, 0);
       const avgTotalMarks = subject.totalMarks.reduce((a, b) => a + b, 0) / subject.totalMarks.length;
+      
+      // Calculate average questions
+      const avgTotalQuestions = subject.totalQuestions.reduce((a, b) => a + b, 0) / subject.totalQuestions.length;
+      const avgCorrectQuestions = subject.correctQuestions.reduce((a, b) => a + b, 0) / subject.correctQuestions.length;
+      const avgIncorrectQuestions = subject.incorrectQuestions.reduce((a, b) => a + b, 0) / subject.incorrectQuestions.length;
+      const avgSkippedQuestions = subject.skippedQuestions.reduce((a, b) => a + b, 0) / subject.skippedQuestions.length;
 
       return {
         subjectName: subject.subjectName,
@@ -281,6 +296,10 @@ router.get('/analytics/subjects', async (req, res) => {
         weightage: Math.round(avgWeightage * 100) / 100,
         totalContribution,
         averageTotalMarks: Math.round(avgTotalMarks * 100) / 100,
+        averageTotalQuestions: Math.round(avgTotalQuestions * 100) / 100,
+        averageCorrectQuestions: Math.round(avgCorrectQuestions * 100) / 100,
+        averageIncorrectQuestions: Math.round(avgIncorrectQuestions * 100) / 100,
+        averageSkippedQuestions: Math.round(avgSkippedQuestions * 100) / 100,
         scores: subject.scores,
         percentages: subject.percentages,
       };

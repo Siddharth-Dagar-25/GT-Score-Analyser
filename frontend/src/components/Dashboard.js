@@ -33,6 +33,7 @@ function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [legendExpanded, setLegendExpanded] = useState({});
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [tableSortOrder, setTableSortOrder] = useState('default'); // Sort for table
 
   useEffect(() => {
     const handleResize = () => {
@@ -209,9 +210,9 @@ function Dashboard() {
       {/* Score Trend Chart */}
       <div className="card">
         <h2 className="card-title">Score Trend Over Time</h2>
-        <div className="chart-container">
-          <ResponsiveContainer width="100%" height={350}>
-            <LineChart data={scoreTrendData} margin={{ top: 10, right: 10, left: 0, bottom: 20 }}>
+        <div className="chart-container score-trend-container">
+          <ResponsiveContainer width="100%" height={450}>
+            <LineChart data={scoreTrendData} margin={{ top: 20, right: 30, left: 20, bottom: 30 }}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" />
               <YAxis />
@@ -221,7 +222,7 @@ function Dashboard() {
                 <LabelList dataKey="score" position="top" fill="#4f46e5" fontSize={11} fontWeight="bold" />
               </Line>
               <Line type="monotone" dataKey="percentage" stroke="#10b981" strokeWidth={2} name="Percentage">
-                <LabelList dataKey="percentage" position="bottom" fill="#10b981" fontSize={10} />
+                <LabelList dataKey="percentage" position="top" fill="#10b981" fontSize={11} fontWeight="bold" />
               </Line>
             </LineChart>
           </ResponsiveContainer>
@@ -563,14 +564,35 @@ function Dashboard() {
 
       {/* Subject-wise Details */}
       <div className="card">
-        <h2 className="card-title">Subject-wise Analysis</h2>
+        <div className="card-header-with-sort">
+          <h2 className="card-title">Subject-wise Analysis</h2>
+          <div className="sort-controls">
+            <label htmlFor="table-sort" className="sort-label">Sort by:</label>
+            <select
+              id="table-sort"
+              className="sort-select"
+              value={tableSortOrder}
+              onChange={(e) => setTableSortOrder(e.target.value)}
+            >
+              <option value="default">Default Order</option>
+              <option value="strong-to-weak">Strong to Weak (High % to Low %)</option>
+              <option value="weak-to-strong">Weak to Strong (Low % to High %)</option>
+              <option value="high-weightage-to-low">High Weightage to Low Weightage</option>
+              <option value="low-weightage-to-high">Low Weightage to High Weightage</option>
+            </select>
+          </div>
+        </div>
         <div className="subject-table-container">
           <table className="table">
             <thead>
               <tr>
                 <th>Subject</th>
-                <th>Average Score</th>
-                <th>Average %</th>
+                <th>Avg Ques</th>
+                <th>Avg Correct</th>
+                <th>Avg Incorrect</th>
+                <th>Avg Skipped</th>
+                <th>Avg Score</th>
+                <th>Avg %</th>
                 <th>Best Score</th>
                 <th>Latest Score</th>
                 <th>Improvement</th>
@@ -578,9 +600,24 @@ function Dashboard() {
               </tr>
             </thead>
             <tbody>
-              {subjectAnalytics.map((subject) => (
+              {[...subjectAnalytics].sort((a, b) => {
+                if (tableSortOrder === 'strong-to-weak') {
+                  return b.averagePercentage - a.averagePercentage; // Descending by percentage
+                } else if (tableSortOrder === 'weak-to-strong') {
+                  return a.averagePercentage - b.averagePercentage; // Ascending by percentage
+                } else if (tableSortOrder === 'high-weightage-to-low') {
+                  return b.weightage - a.weightage; // Descending by weightage
+                } else if (tableSortOrder === 'low-weightage-to-high') {
+                  return a.weightage - b.weightage; // Ascending by weightage
+                }
+                return 0; // Default order (original)
+              }).map((subject) => (
                 <tr key={subject.subjectName}>
                   <td><strong>{subject.subjectName}</strong></td>
+                  <td>{Math.round(subject.averageTotalQuestions)}</td>
+                  <td className="positive">{Math.round(subject.averageCorrectQuestions)}</td>
+                  <td className="negative">{Math.round(subject.averageIncorrectQuestions)}</td>
+                  <td>{Math.round(subject.averageSkippedQuestions)}</td>
                   <td>{subject.averageScore.toFixed(2)}</td>
                   <td>{subject.averagePercentage.toFixed(2)}%</td>
                   <td>{subject.bestScore}</td>
