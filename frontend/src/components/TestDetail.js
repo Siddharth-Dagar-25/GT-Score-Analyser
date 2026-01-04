@@ -29,6 +29,15 @@ function TestDetail() {
   const [previousTest, setPreviousTest] = useState(null);
   const [loading, setLoading] = useState(true);
   const [legendExpanded, setLegendExpanded] = useState({});
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     fetchTestData();
@@ -146,6 +155,7 @@ function TestDetail() {
       : 0;
     return {
       name: subject.subjectName,
+      shortName: abbreviateSubjectName(subject.subjectName),
       'Current': subject.marksObtained,
       'Previous': prevSubject ? prevSubject.marksObtained : 0,
       'Improvement': Math.round(improvement * 100) / 100,
@@ -231,75 +241,189 @@ function TestDetail() {
         {/* Question Breakdown Chart */}
         <div className="card">
           <h2 className="card-title">Question Breakdown</h2>
-          <ResponsiveContainer width="100%" height={300}>
-            <PieChart>
-              <Pie
-                data={questionBreakdownData}
-                cx="50%"
-                cy="50%"
-                labelLine={true}
-                label={({ name, value, percent }) => `${name}\n${value} (${(percent * 100).toFixed(1)}%)`}
-                outerRadius={100}
-                fill="#8884d8"
-                dataKey="value"
-              >
-                {questionBreakdownData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.color} />
-                ))}
-              </Pie>
-              <Tooltip />
-              <Legend />
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
-
-        {/* Subject-wise Performance */}
-        <div className="card">
-          <h2 className="card-title">Subject-wise Performance</h2>
-          <div className="chart-wrapper">
-            <ResponsiveContainer width="100%" height={500}>
-              <BarChart 
-                data={subjectBarData}
-                margin={{ top: 20, right: 30, left: 20, bottom: 100 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis 
-                  dataKey="shortName" 
-                  angle={-45}
-                  textAnchor="end"
-                  height={100}
-                  interval={0}
-                  tick={{ fontSize: 11, fill: 'var(--text-secondary)' }}
-                />
-                <YAxis />
+          <div className="chart-container">
+            <ResponsiveContainer width="100%" height={350}>
+              <PieChart margin={{ top: 10, right: 10, left: 10, bottom: 10 }}>
+                <Pie
+                  data={questionBreakdownData}
+                  cx="50%"
+                  cy="50%"
+                  labelLine={false}
+                  label={false}
+                  outerRadius={120}
+                  innerRadius={60}
+                  fill="#8884d8"
+                  dataKey="value"
+                >
+                  {questionBreakdownData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+                <text
+                  x="50%"
+                  y="45%"
+                  textAnchor="middle"
+                  fill="var(--text-primary)"
+                  fontSize={24}
+                  fontWeight="bold"
+                >
+                  {test.totalQuestions}
+                </text>
+                <text
+                  x="50%"
+                  y="55%"
+                  textAnchor="middle"
+                  fill="var(--text-secondary)"
+                  fontSize={14}
+                >
+                  Total Questions
+                </text>
                 <Tooltip 
-                  content={({ active, payload, label }) => {
+                  content={({ active, payload }) => {
                     if (active && payload && payload.length) {
-                      const fullName = subjectBarData.find(d => d.shortName === label)?.name || label;
+                      const data = payload[0];
+                      const total = questionBreakdownData.reduce((sum, d) => sum + d.value, 0);
+                      const percentage = total > 0 ? ((data.value / total) * 100).toFixed(1) : 0;
                       return (
                         <div className="custom-tooltip">
-                          <p style={{ margin: 0, fontWeight: 'bold', marginBottom: '4px' }}>{fullName}</p>
-                          {payload.map((entry, index) => (
-                            <p key={index} style={{ margin: '2px 0', color: entry.color }}>
-                              {entry.name}: {entry.value}
-                            </p>
-                          ))}
+                          <p style={{ margin: 0, fontWeight: 'bold', marginBottom: '4px' }}>{data.name}</p>
+                          <p style={{ margin: '2px 0' }}>Count: {data.value}</p>
+                          <p style={{ margin: '2px 0' }}>Percentage: {percentage}%</p>
                         </div>
                       );
                     }
                     return null;
                   }}
                 />
-                <Legend />
-                <Bar dataKey="Marks Obtained" fill="#4f46e5">
-                  <LabelList dataKey="Marks Obtained" position="top" fill="#4f46e5" fontSize={10} fontWeight="bold" />
-                </Bar>
-                <Bar dataKey="Total Marks" fill="#e0e0e0">
-                  <LabelList dataKey="Total Marks" position="top" fill="#666" fontSize={10} />
-                </Bar>
-              </BarChart>
+                <Legend 
+                  formatter={(value, entry) => {
+                    const data = questionBreakdownData.find(d => d.name === value);
+                    const total = questionBreakdownData.reduce((sum, d) => sum + d.value, 0);
+                    const percentage = data ? ((data.value / total) * 100).toFixed(1) : 0;
+                    return `${value}: ${data?.value || 0} (${percentage}%)`;
+                  }}
+                />
+              </PieChart>
             </ResponsiveContainer>
           </div>
+        </div>
+
+        {/* Subject-wise Performance */}
+        <div className="card">
+          <h2 className="card-title">Subject-wise Performance</h2>
+          {isMobile ? (
+            <div className="mobile-chart-view">
+              <div className="mobile-chart-legend">
+                <div className="legend-item">
+                  <span className="legend-color" style={{ backgroundColor: '#4f46e5' }}></span>
+                  <span>Marks Obtained</span>
+                </div>
+                <div className="legend-item">
+                  <span className="legend-color" style={{ backgroundColor: '#e0e0e0' }}></span>
+                  <span>Total Marks</span>
+                </div>
+              </div>
+              <div className="mobile-subject-list">
+                {subjectBarData.map((item, index) => {
+                  const maxValue = Math.max(...subjectBarData.map(d => Math.max(d['Marks Obtained'], d['Total Marks'])));
+                  return (
+                    <div key={index} className="mobile-subject-card">
+                      <div className="mobile-subject-header">
+                        <h3 className="mobile-subject-name">{item.name}</h3>
+                        <span className="mobile-subject-short">{item.shortName}</span>
+                      </div>
+                      <div className="mobile-score-bars">
+                        <div className="mobile-score-item">
+                          <div className="mobile-score-label">Obtained</div>
+                          <div className="mobile-score-bar-container">
+                            <div 
+                              className="mobile-score-bar" 
+                              style={{ 
+                                width: `${(item['Marks Obtained'] / maxValue) * 100}%`,
+                                backgroundColor: '#4f46e5'
+                              }}
+                            ></div>
+                            <span className="mobile-score-value">{item['Marks Obtained']}</span>
+                          </div>
+                        </div>
+                        <div className="mobile-score-item">
+                          <div className="mobile-score-label">Total</div>
+                          <div className="mobile-score-bar-container">
+                            <div 
+                              className="mobile-score-bar" 
+                              style={{ 
+                                width: `${(item['Total Marks'] / maxValue) * 100}%`,
+                                backgroundColor: '#e0e0e0'
+                              }}
+                            ></div>
+                            <span className="mobile-score-value">{item['Total Marks']}</span>
+                          </div>
+                        </div>
+                        <div className="mobile-score-item">
+                          <div className="mobile-score-label">Percentage</div>
+                          <div className="mobile-score-bar-container">
+                            <div 
+                              className="mobile-score-bar" 
+                              style={{ 
+                                width: `${item['Percentage']}%`,
+                                backgroundColor: '#10b981'
+                              }}
+                            ></div>
+                            <span className="mobile-score-value">{item['Percentage'].toFixed(1)}%</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ) : (
+            <div className="chart-wrapper">
+              <ResponsiveContainer width="100%" height={500}>
+                <BarChart 
+                  data={subjectBarData}
+                  margin={{ top: 20, right: 10, left: 0, bottom: 100 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis 
+                    dataKey="shortName" 
+                    angle={-45}
+                    textAnchor="end"
+                    height={100}
+                    interval={0}
+                    tick={{ fontSize: 11, fill: 'var(--text-secondary)' }}
+                  />
+                  <YAxis />
+                  <Tooltip 
+                    content={({ active, payload, label }) => {
+                      if (active && payload && payload.length) {
+                        const fullName = subjectBarData.find(d => d.shortName === label)?.name || label;
+                        return (
+                          <div className="custom-tooltip">
+                            <p style={{ margin: 0, fontWeight: 'bold', marginBottom: '4px' }}>{fullName}</p>
+                            {payload.map((entry, index) => (
+                              <p key={index} style={{ margin: '2px 0', color: entry.color }}>
+                                {entry.name}: {entry.value}
+                              </p>
+                            ))}
+                          </div>
+                        );
+                      }
+                      return null;
+                    }}
+                  />
+                  <Legend />
+                  <Bar dataKey="Marks Obtained" fill="#4f46e5">
+                    <LabelList dataKey="Marks Obtained" position="top" fill="#4f46e5" fontSize={10} fontWeight="bold" />
+                  </Bar>
+                  <Bar dataKey="Total Marks" fill="#e0e0e0">
+                    <LabelList dataKey="Total Marks" position="top" fill="#666" fontSize={10} />
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          )}
           {/* Subject name legend - Collapsible */}
           <div className="subject-legend">
             <div 
@@ -339,7 +463,7 @@ function TestDetail() {
                     if (value === 0) return '';
                     return `${shortName}\n${value}m\n${percentage.toFixed(1)}%`;
                   }}
-                  outerRadius={120}
+                  outerRadius={140}
                   fill="#8884d8"
                   dataKey="value"
                 >
@@ -410,50 +534,116 @@ function TestDetail() {
                 {(test.percentage - previousTest.percentage).toFixed(2)}%)
               </div>
             </div>
-            <div className="chart-wrapper">
-              <ResponsiveContainer width="100%" height={500}>
-                <BarChart 
-                  data={comparisonData}
-                  margin={{ top: 20, right: 30, left: 20, bottom: 100 }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis 
-                    dataKey="shortName" 
-                    angle={-45}
-                    textAnchor="end"
-                    height={100}
-                    interval={0}
-                    tick={{ fontSize: 11, fill: 'var(--text-secondary)' }}
-                  />
-                  <YAxis />
-                  <Tooltip 
-                    content={({ active, payload, label }) => {
-                      if (active && payload && payload.length) {
-                        const fullName = comparisonData.find(d => d.shortName === label)?.name || label;
-                        return (
-                          <div className="custom-tooltip">
-                            <p style={{ margin: 0, fontWeight: 'bold', marginBottom: '4px' }}>{fullName}</p>
-                            {payload.map((entry, index) => (
-                              <p key={index} style={{ margin: '2px 0', color: entry.color }}>
-                                {entry.name}: {entry.value}
-                              </p>
-                            ))}
+            {isMobile ? (
+              <div className="mobile-chart-view">
+                <div className="mobile-chart-legend">
+                  <div className="legend-item">
+                    <span className="legend-color" style={{ backgroundColor: '#94a3b8' }}></span>
+                    <span>Previous</span>
+                  </div>
+                  <div className="legend-item">
+                    <span className="legend-color" style={{ backgroundColor: '#4f46e5' }}></span>
+                    <span>Current</span>
+                  </div>
+                </div>
+                <div className="mobile-subject-list">
+                  {comparisonData.map((item, index) => {
+                    const maxValue = Math.max(...comparisonData.map(d => Math.max(d['Previous'], d['Current'])));
+                    return (
+                      <div key={index} className="mobile-subject-card">
+                        <div className="mobile-subject-header">
+                          <h3 className="mobile-subject-name">{item.name}</h3>
+                          <span className="mobile-subject-short">{item.shortName}</span>
+                        </div>
+                        <div className="mobile-score-bars">
+                          <div className="mobile-score-item">
+                            <div className="mobile-score-label">Previous</div>
+                            <div className="mobile-score-bar-container">
+                              <div 
+                                className="mobile-score-bar" 
+                                style={{ 
+                                  width: `${maxValue > 0 ? (item['Previous'] / maxValue) * 100 : 0}%`,
+                                  backgroundColor: '#94a3b8'
+                                }}
+                              ></div>
+                              <span className="mobile-score-value">{item['Previous']}</span>
+                            </div>
                           </div>
-                        );
-                      }
-                      return null;
-                    }}
-                  />
-                  <Legend />
-                  <Bar dataKey="Previous" fill="#94a3b8">
-                    <LabelList dataKey="Previous" position="top" fill="#94a3b8" fontSize={10} fontWeight="bold" />
-                  </Bar>
-                  <Bar dataKey="Current" fill="#4f46e5">
-                    <LabelList dataKey="Current" position="top" fill="#4f46e5" fontSize={10} fontWeight="bold" />
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
+                          <div className="mobile-score-item">
+                            <div className="mobile-score-label">Current</div>
+                            <div className="mobile-score-bar-container">
+                              <div 
+                                className="mobile-score-bar" 
+                                style={{ 
+                                  width: `${maxValue > 0 ? (item['Current'] / maxValue) * 100 : 0}%`,
+                                  backgroundColor: '#4f46e5'
+                                }}
+                              ></div>
+                              <span className="mobile-score-value">{item['Current']}</span>
+                            </div>
+                          </div>
+                          {item['Improvement'] !== 0 && (
+                            <div className="mobile-score-item">
+                              <div className="mobile-score-label">Change</div>
+                              <div className="mobile-score-bar-container">
+                                <span className={`mobile-score-value ${item['Improvement'] >= 0 ? 'positive' : 'negative'}`}>
+                                  {item['Improvement'] >= 0 ? '+' : ''}{item['Improvement'].toFixed(1)}%
+                                </span>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ) : (
+              <div className="chart-wrapper">
+                <ResponsiveContainer width="100%" height={500}>
+                  <BarChart 
+                    data={comparisonData}
+                    margin={{ top: 20, right: 10, left: 0, bottom: 100 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis 
+                      dataKey="shortName" 
+                      angle={-45}
+                      textAnchor="end"
+                      height={100}
+                      interval={0}
+                      tick={{ fontSize: 11, fill: 'var(--text-secondary)' }}
+                    />
+                    <YAxis />
+                    <Tooltip 
+                      content={({ active, payload, label }) => {
+                        if (active && payload && payload.length) {
+                          const fullName = comparisonData.find(d => d.shortName === label)?.name || label;
+                          return (
+                            <div className="custom-tooltip">
+                              <p style={{ margin: 0, fontWeight: 'bold', marginBottom: '4px' }}>{fullName}</p>
+                              {payload.map((entry, index) => (
+                                <p key={index} style={{ margin: '2px 0', color: entry.color }}>
+                                  {entry.name}: {entry.value}
+                                </p>
+                              ))}
+                            </div>
+                          );
+                        }
+                        return null;
+                      }}
+                    />
+                    <Legend />
+                    <Bar dataKey="Previous" fill="#94a3b8">
+                      <LabelList dataKey="Previous" position="top" fill="#94a3b8" fontSize={10} fontWeight="bold" />
+                    </Bar>
+                    <Bar dataKey="Current" fill="#4f46e5">
+                      <LabelList dataKey="Current" position="top" fill="#4f46e5" fontSize={10} fontWeight="bold" />
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            )}
             {/* Subject name legend - Collapsible */}
             {comparisonData.length > 0 && (
               <div className="subject-legend">

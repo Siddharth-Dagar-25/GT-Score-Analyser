@@ -209,6 +209,17 @@
   overflow: visible;
 }
 
+/* Chart container for non-scrollable charts */
+.chart-container {
+  width: 100%;
+  overflow: visible;
+}
+
+/* Ensure pie chart container allows labels to show */
+.chart-container .recharts-wrapper {
+  overflow: visible !important;
+}
+
 /* Mobile: Make charts horizontally scrollable */
 @media (max-width: 768px) {
   .chart-wrapper {
@@ -222,6 +233,40 @@
   .chart-wrapper .recharts-wrapper {
     min-width: 600px;
   }
+
+  /* Responsive heights for charts on mobile */
+  .chart-container .recharts-responsive-container {
+    height: 400px !important;
+  }
+
+  .chart-wrapper .recharts-responsive-container {
+    height: 400px !important;
+  }
+
+  /* Question Breakdown pie chart - ensure labels fit on mobile */
+  .chart-container .recharts-pie-label {
+    font-size: 10px !important;
+  }
+
+  /* Ensure pie chart labels are not cut off */
+  .chart-container .recharts-pie-label-line {
+    stroke-width: 1px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .chart-container .recharts-responsive-container {
+    height: 380px !important;
+  }
+
+  .chart-wrapper .recharts-responsive-container {
+    height: 350px !important;
+  }
+
+  /* Question Breakdown pie chart - more space on small screens */
+  .chart-container .recharts-pie-label {
+    font-size: 9px !important;
+  }
 }
 
 /* Custom tooltip styling */
@@ -231,6 +276,125 @@
   border-radius: 8px;
   padding: 0.75rem;
   box-shadow: var(--card-shadow);
+}
+
+/* Mobile-friendly chart view */
+.mobile-chart-view {
+  width: 100%;
+}
+
+.mobile-chart-legend {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  padding: 1rem;
+  background-color: var(--bg-primary);
+  border-radius: 8px;
+}
+
+.mobile-chart-legend .legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.mobile-chart-legend .legend-color {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.mobile-subject-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.mobile-subject-card {
+  padding: 1rem;
+  background-color: var(--bg-primary);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+}
+
+.mobile-subject-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.mobile-subject-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.mobile-subject-short {
+  font-size: 0.75rem;
+  color: var(--accent-color);
+  background-color: rgba(79, 70, 229, 0.1);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.mobile-score-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.mobile-score-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.mobile-score-label {
+  min-width: 60px;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.mobile-score-bar-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
+}
+
+.mobile-score-bar {
+  height: 24px;
+  border-radius: 4px;
+  min-width: 4px;
+  transition: width 0.3s ease;
+}
+
+.mobile-score-value {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  min-width: 45px;
+  text-align: right;
+}
+
+.mobile-score-value.positive {
+  color: var(--success-color);
+}
+
+.mobile-score-value.negative {
+  color: var(--error-color);
 }
 
 /* Subject legend */
@@ -306,6 +470,17 @@
   color: var(--text-secondary);
 }
 
+/* Center align all legends */
+.recharts-legend-wrapper {
+  text-align: center !important;
+}
+
+.recharts-legend {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
 /* Chart label styling for mobile visibility */
 .recharts-label {
   font-size: 11px !important;
@@ -332,6 +507,22 @@
     font-size: 10px !important;
   }
 
+  .recharts-xAxis .recharts-cartesian-axis-tick text,
+  .recharts-yAxis .recharts-cartesian-axis-tick text {
+    font-size: 10px !important;
+  }
+
+  .recharts-legend-wrapper {
+    font-size: 11px !important;
+    text-align: center !important;
+  }
+
+  .recharts-legend {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+
   .subject-legend-grid {
     grid-template-columns: 1fr;
     gap: 0.375rem;
@@ -345,6 +536,11 @@
   .subject-legend-content:not(.expanded) .subject-legend-grid {
     max-height: 120px;
     overflow: hidden;
+  }
+
+  /* Adjust margins for better mobile display */
+  .card {
+    padding: 1rem;
   }
 }
 

@@ -32,6 +32,15 @@ function Dashboard() {
   const [tests, setTests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [legendExpanded, setLegendExpanded] = useState({});
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     fetchData();
@@ -200,73 +209,148 @@ function Dashboard() {
       {/* Score Trend Chart */}
       <div className="card">
         <h2 className="card-title">Score Trend Over Time</h2>
-        <ResponsiveContainer width="100%" height={350}>
-          <LineChart data={scoreTrendData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Line type="monotone" dataKey="score" stroke="#4f46e5" strokeWidth={2} name="Score">
-              <LabelList dataKey="score" position="top" fill="#4f46e5" fontSize={11} fontWeight="bold" />
-            </Line>
-            <Line type="monotone" dataKey="percentage" stroke="#10b981" strokeWidth={2} name="Percentage">
-              <LabelList dataKey="percentage" position="bottom" fill="#10b981" fontSize={10} />
-            </Line>
-          </LineChart>
-        </ResponsiveContainer>
+        <div className="chart-container">
+          <ResponsiveContainer width="100%" height={350}>
+            <LineChart data={scoreTrendData} margin={{ top: 10, right: 10, left: 0, bottom: 20 }}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Line type="monotone" dataKey="score" stroke="#4f46e5" strokeWidth={2} name="Score">
+                <LabelList dataKey="score" position="top" fill="#4f46e5" fontSize={11} fontWeight="bold" />
+              </Line>
+              <Line type="monotone" dataKey="percentage" stroke="#10b981" strokeWidth={2} name="Percentage">
+                <LabelList dataKey="percentage" position="bottom" fill="#10b981" fontSize={10} />
+              </Line>
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
       </div>
 
       {/* Subject Comparison */}
       <div className="card">
         <h2 className="card-title">Subject-wise Score Comparison</h2>
-        <div className="chart-wrapper">
-          <ResponsiveContainer width="100%" height={500}>
-            <BarChart 
-              data={subjectComparisonData}
-              margin={{ top: 20, right: 30, left: 20, bottom: 100 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis 
-                dataKey="shortName" 
-                angle={-45}
-                textAnchor="end"
-                height={100}
-                interval={0}
-                tick={{ fontSize: 11, fill: 'var(--text-secondary)' }}
-              />
-              <YAxis />
-              <Tooltip 
-                content={({ active, payload, label }) => {
-                  if (active && payload && payload.length) {
-                    const fullName = subjectComparisonData.find(d => d.shortName === label)?.name || label;
-                    return (
-                      <div className="custom-tooltip">
-                        <p style={{ margin: 0, fontWeight: 'bold', marginBottom: '4px' }}>{fullName}</p>
-                        {payload.map((entry, index) => (
-                          <p key={index} style={{ margin: '2px 0', color: entry.color }}>
-                            {entry.name}: {entry.value}
-                          </p>
-                        ))}
+        {isMobile ? (() => {
+          const maxValue = Math.max(...subjectComparisonData.map(d => Math.max(d['Average Score'], d['Best Score'], d['Latest Score'])));
+          return (
+            <div className="mobile-chart-view">
+              <div className="mobile-chart-legend">
+                <div className="legend-item">
+                  <span className="legend-color" style={{ backgroundColor: '#4f46e5' }}></span>
+                  <span>Average Score</span>
+                </div>
+                <div className="legend-item">
+                  <span className="legend-color" style={{ backgroundColor: '#10b981' }}></span>
+                  <span>Best Score</span>
+                </div>
+                <div className="legend-item">
+                  <span className="legend-color" style={{ backgroundColor: '#f59e0b' }}></span>
+                  <span>Latest Score</span>
+                </div>
+              </div>
+              <div className="mobile-subject-list">
+                {subjectComparisonData.map((item, index) => (
+                  <div key={index} className="mobile-subject-card">
+                    <div className="mobile-subject-header">
+                      <h3 className="mobile-subject-name">{item.name}</h3>
+                      <span className="mobile-subject-short">{item.shortName}</span>
+                    </div>
+                    <div className="mobile-score-bars">
+                      <div className="mobile-score-item">
+                        <div className="mobile-score-label">Average</div>
+                        <div className="mobile-score-bar-container">
+                          <div 
+                            className="mobile-score-bar" 
+                            style={{ 
+                              width: `${(item['Average Score'] / maxValue) * 100}%`,
+                              backgroundColor: '#4f46e5'
+                            }}
+                          ></div>
+                          <span className="mobile-score-value">{item['Average Score']}</span>
+                        </div>
                       </div>
-                    );
-                  }
-                  return null;
-                }}
-              />
-              <Legend />
-              <Bar dataKey="Average Score" fill="#4f46e5">
-                <LabelList dataKey="Average Score" position="top" fill="#4f46e5" fontSize={10} fontWeight="bold" />
-              </Bar>
-              <Bar dataKey="Best Score" fill="#10b981">
-                <LabelList dataKey="Best Score" position="top" fill="#10b981" fontSize={10} fontWeight="bold" />
-              </Bar>
-              <Bar dataKey="Latest Score" fill="#f59e0b">
-                <LabelList dataKey="Latest Score" position="top" fill="#f59e0b" fontSize={10} fontWeight="bold" />
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
+                      <div className="mobile-score-item">
+                        <div className="mobile-score-label">Best</div>
+                        <div className="mobile-score-bar-container">
+                          <div 
+                            className="mobile-score-bar" 
+                            style={{ 
+                              width: `${(item['Best Score'] / maxValue) * 100}%`,
+                              backgroundColor: '#10b981'
+                            }}
+                          ></div>
+                          <span className="mobile-score-value">{item['Best Score']}</span>
+                        </div>
+                      </div>
+                      <div className="mobile-score-item">
+                        <div className="mobile-score-label">Latest</div>
+                        <div className="mobile-score-bar-container">
+                          <div 
+                            className="mobile-score-bar" 
+                            style={{ 
+                              width: `${(item['Latest Score'] / maxValue) * 100}%`,
+                              backgroundColor: '#f59e0b'
+                            }}
+                          ></div>
+                          <span className="mobile-score-value">{item['Latest Score']}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+        })() : (
+          <div className="chart-wrapper">
+            <ResponsiveContainer width="100%" height={500}>
+              <BarChart 
+                data={subjectComparisonData}
+                margin={{ top: 20, right: 10, left: 0, bottom: 100 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis 
+                  dataKey="shortName" 
+                  angle={-45}
+                  textAnchor="end"
+                  height={100}
+                  interval={0}
+                  tick={{ fontSize: 11, fill: 'var(--text-secondary)' }}
+                />
+                <YAxis />
+                <Tooltip 
+                  content={({ active, payload, label }) => {
+                    if (active && payload && payload.length) {
+                      const fullName = subjectComparisonData.find(d => d.shortName === label)?.name || label;
+                      return (
+                        <div className="custom-tooltip">
+                          <p style={{ margin: 0, fontWeight: 'bold', marginBottom: '4px' }}>{fullName}</p>
+                          {payload.map((entry, index) => (
+                            <p key={index} style={{ margin: '2px 0', color: entry.color }}>
+                              {entry.name}: {entry.value}
+                            </p>
+                          ))}
+                        </div>
+                      );
+                    }
+                    return null;
+                  }}
+                />
+                <Legend />
+                <Bar dataKey="Average Score" fill="#4f46e5">
+                  <LabelList dataKey="Average Score" position="top" fill="#4f46e5" fontSize={10} fontWeight="bold" />
+                </Bar>
+                <Bar dataKey="Best Score" fill="#10b981">
+                  <LabelList dataKey="Best Score" position="top" fill="#10b981" fontSize={10} fontWeight="bold" />
+                </Bar>
+                <Bar dataKey="Latest Score" fill="#f59e0b">
+                  <LabelList dataKey="Latest Score" position="top" fill="#f59e0b" fontSize={10} fontWeight="bold" />
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        )}
         {/* Subject name legend - Collapsible */}
         <div className="subject-legend">
           <div 
@@ -306,7 +390,7 @@ function Dashboard() {
                   if (value === 0) return '';
                   return `${shortName}\n${value}m\n${percentage.toFixed(1)}%`;
                 }}
-                outerRadius={120}
+                outerRadius={140}
                 fill="#8884d8"
                 dataKey="value"
               >
@@ -360,15 +444,86 @@ function Dashboard() {
       {/* Radar Chart */}
       <div className="card">
         <h2 className="card-title">Subject Performance Radar</h2>
-        <ResponsiveContainer width="100%" height={450}>
-          <RadarChart data={radarData}>
-            <PolarGrid />
-            <PolarAngleAxis dataKey="subject" />
-            <PolarRadiusAxis angle={90} domain={[0, 100]} />
-            <Radar name="Performance" dataKey="score" stroke="#4f46e5" fill="#4f46e5" fillOpacity={0.6} />
-            <Tooltip />
-          </RadarChart>
-        </ResponsiveContainer>
+        <div className="chart-container">
+          <ResponsiveContainer width="100%" height={400}>
+            <RadarChart data={radarData} margin={{ top: 20, right: 20, left: 20, bottom: 20 }}>
+              <PolarGrid />
+              <PolarAngleAxis 
+                dataKey="subject" 
+                tick={({ payload, x, y, cx, cy }) => {
+                  const abbreviateSubjectName = (name) => {
+                    const abbreviations = {
+                      'Obstetrics & Gynaecology': 'OBG',
+                      'Community Medicine': 'Comm Med',
+                      'Forensic Medicine': 'Forensic',
+                      'Ophthalmology': 'Ophthalmol',
+                      'Orthopaedics': 'Ortho',
+                      'Anaesthesia': 'Anaesth',
+                      'Dermatology': 'Derm',
+                      'Psychiatry': 'Psych',
+                      'Paediatrics': 'Paed',
+                      'Microbiology': 'Micro',
+                      'Pharmacology': 'Pharma',
+                      'Biochemistry': 'Biochem',
+                      'Pathology': 'Path',
+                      'Physiology': 'Physio',
+                      'Anatomy': 'Anat',
+                      'Medicine': 'Med',
+                      'Surgery': 'Surg',
+                      'Radiology': 'Radio',
+                      'ENT': 'ENT',
+                    };
+                    return abbreviations[name] || name;
+                  };
+                  const shortName = abbreviateSubjectName(payload.value);
+                  // Calculate distance from center and add gap for labels
+                  const dx = x - cx;
+                  const dy = y - cy;
+                  const radius = Math.sqrt(dx * dx + dy * dy);
+                  const angle = Math.atan2(dy, dx);
+                  const labelRadius = radius + 12; // Add 12px gap between chart and labels
+                  const labelX = cx + labelRadius * Math.cos(angle);
+                  const labelY = cy + labelRadius * Math.sin(angle);
+                  return (
+                    <text
+                      x={labelX}
+                      y={labelY}
+                      fill="var(--text-secondary)"
+                      fontSize={11}
+                      textAnchor="middle"
+                      dominantBaseline="middle"
+                    >
+                      {shortName}
+                    </text>
+                  );
+                }}
+              />
+              <PolarRadiusAxis 
+                angle={90} 
+                domain={[0, 100]} 
+                tick={{ fontSize: 10, fill: 'var(--text-secondary)' }}
+              />
+              <Radar name="Performance" dataKey="score" stroke="#4f46e5" fill="#4f46e5" fillOpacity={0.6} />
+              <Tooltip 
+                content={({ active, payload }) => {
+                  if (active && payload && payload.length) {
+                    const data = payload[0];
+                    const subjectName = data.payload?.subject || data.name || 'Unknown';
+                    return (
+                      <div className="custom-tooltip">
+                        <p style={{ margin: 0, fontWeight: 'bold', marginBottom: '4px' }}>
+                          {subjectName}
+                        </p>
+                        <p style={{ margin: '2px 0' }}>Score: {data.value}</p>
+                      </div>
+                    );
+                  }
+                  return null;
+                }}
+              />
+            </RadarChart>
+          </ResponsiveContainer>
+        </div>
       </div>
 
       {/* Insights */}
